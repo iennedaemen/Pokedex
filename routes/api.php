@@ -2,6 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
+use App\Http\Controllers\UserController;
 use App\Http\Controllers\PokemonController;
 
 /*
@@ -32,3 +34,8 @@ Route::get('/v1/pokemons/{id}', [PokemonController::class, 'GetById']);
 //Route::get('/v1/search', [PokemonController::class, 'search']);
 
 //Route::get('/v2/pokemons', [PokemonController::class, 'get']);
+
+Route::post('/user/add', [UserController::class, 'AddUser']);
+Route::post('/user/edit', [UserController::class, 'EditUser']);
+Route::post('/login', [AuthController::class, 'Login']);
+Route::get('/logout', [AuthController::class, 'Logout']);
