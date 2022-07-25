@@ -36,6 +36,7 @@ Route::get('/v1/pokemons/{id}', [PokemonController::class, 'GetById']);
 //Route::get('/v2/pokemons', [PokemonController::class, 'get']);
 
 Route::post('/user/add', [UserController::class, 'AddUser']);
-Route::post('/user/edit', [UserController::class, 'EditUser']);
+Route::post('/user/edit', [UserController::class, 'EditUser'])->middleware('auth:sanctum');
+Route::get('/user/delete', [UserController::class, 'DeleteUser'])->middleware('auth:sanctum');
 Route::post('/login', [AuthController::class, 'Login']);
-Route::get('/logout', [AuthController::class, 'Logout']);
+Route::get('/logout', [AuthController::class, 'Logout'])->middleware('auth:sanctum');
