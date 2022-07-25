@@ -13,11 +13,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('pokemons', function (Blueprint $table) {
+        Schema::create('pokemon', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->foreignId('sprite_id');
-            $table->string('type_ids');
+            $table->string('sprite');
+            $table->float('height');
+            $table->float('weight');
+            $table->integer('order')->unsigned();
         });
     }
 
