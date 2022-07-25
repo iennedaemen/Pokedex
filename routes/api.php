@@ -21,7 +21,7 @@ use App\Http\Controllers\PokemonController;
 
 
 
-//Route::get('/v1/pokemons/{sort?}', [PokemonController::class, 'GetAll']);
+Route::get('/v1/pokemons', [PokemonController::class, 'GetAll']);
 Route::get('/v1/pokemons/{id}', [PokemonController::class, 'GetById']);
 
 //Route::get('/v1/teams', [TeamController::class, 'getAll']);
