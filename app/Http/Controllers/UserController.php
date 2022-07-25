@@ -56,7 +56,7 @@ class UserController extends Controller
     public function DeleteUser()
     {
         $user = Auth::user();
-        Auth::logout();
+        Auth::user()->tokens()->delete();
         $user->delete();
         return response()->json(['description' => 'Successful operation'], 200);
     }
