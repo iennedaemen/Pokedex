@@ -16,4 +16,9 @@ class Ability extends Model
         'is_hidden',
         'slot',
     ];
+
+    public function pokemon()
+    {
+        return $this->belongsToMany(Pokemon::class, 'pokemon_ability', 'ability_id', 'pokemon_id')->withPivot('slot');
+    }
 }

@@ -12,8 +12,12 @@ class Move extends Model
 
     public $timestamps = false;
 
-    public function pokemons()
+    protected $fillable = [
+        'name'
+    ];
+
+    public function pokemon()
     {
-        return $this->belongsToMany(Pokemon::class);
+        return $this->belongsToMany(Pokemon::class, 'move_pokemon', 'move_id', 'pokemon_id')->withPivot('learn_level', 'learn_method', 'version_id');
     }
 }
