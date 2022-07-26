@@ -5,6 +5,7 @@ namespace App\Models;
 use App\Models\Form;
 use App\Models\Move;
 use App\Models\Stat;
+use App\Models\Team;
 use App\Models\Type;
 use App\Models\Sprite;
 use App\Models\Ability;

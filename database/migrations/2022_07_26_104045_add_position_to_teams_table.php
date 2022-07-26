@@ -14,8 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::table('teams', function (Blueprint $table) {
-            $table->dropColumn('pokemon');
-            $table->foreignId('pokemon_id');
+            $table->integer('position')->unsigned();
         });
     }
 
@@ -27,8 +26,7 @@ return new class extends Migration
     public function down()
     {
         Schema::table('teams', function (Blueprint $table) {
-            $table->string('pokemon');
-            $table->dropColumn('pokemon_id');
+            $table->dropColumn('position');
         });
     }
 };

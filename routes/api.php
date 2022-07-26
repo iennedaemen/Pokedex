@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\TeamController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PokemonController;
 
@@ -28,7 +29,7 @@ Route::get('/v1/pokemons/{id}', [PokemonController::class, 'GetById']);
 Route::get('/v2/pokemons', [PokemonController::class, 'GetAllPaginated']);
 
 //Route::get('/v1/teams', [TeamController::class, 'getAll']);
-//Route::post('/v1/teams', [TeamController::class, 'create']);
+Route::post('/v1/teams', [TeamController::class, 'AddTeam'])->middleware('auth:sanctum');
 //Route::get('/v1/teams/{id}', [TeamController::class, 'getById']);
 //Route::post('/v1/teams/{id}', [TeamController::class, 'set']);
 
