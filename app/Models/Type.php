@@ -11,6 +11,10 @@ class Type extends Model
 
     public $timestamps = false;
 
+    protected $fillable = [
+        'name',
+    ];
+
     public function pokemon()
     {
         return $this->belongsToMany(Type::class, 'pokemon_type', 'type_id', 'pokemon_id')->withPivot('slot', 'past');

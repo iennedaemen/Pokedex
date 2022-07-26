@@ -11,4 +11,10 @@ class PokemonTeam extends Pivot
     use HasFactory;
 
     public $timestamps = false;
+
+    protected $fillable = [
+        'team_id',
+        'pokemon_id',
+        'position'
+    ];
 }

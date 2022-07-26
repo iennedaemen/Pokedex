@@ -14,7 +14,6 @@ class Ability extends Model
     protected $fillable = [
         'name',
         'is_hidden',
-        'slot',
     ];
 
     public function pokemon()

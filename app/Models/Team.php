@@ -12,6 +12,11 @@ class Team extends Model
 
     public $timestamps = false;
 
+    protected $fillable = [
+        'user_id',
+        'name',
+    ];
+
     public function pokemon()
     {
         return $this->belongsToMany(Pokemon::class, 'pokemon_team', 'team_id', 'pokemon_id')->withPivot('position');

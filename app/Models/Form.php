@@ -10,4 +10,10 @@ class Form extends Model
     use HasFactory;
 
     public $timestamps = false;
+
+    protected $fillable = [
+        'pokemon_id',
+        'name',
+        'sprite',
+    ];
 }

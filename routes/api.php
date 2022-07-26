@@ -26,16 +26,14 @@ use App\Http\Controllers\PokemonController;
 
 Route::get('/v1/pokemons', [PokemonController::class, 'GetAll']);
 Route::get('/v1/pokemons/{id}', [PokemonController::class, 'GetById']);
+Route::get('/v1/search', [PokemonController::class, 'Search']);
+
 Route::get('/v2/pokemons', [PokemonController::class, 'GetAllPaginated']);
 
 Route::get('/v1/teams', [TeamController::class, 'getAll'])->middleware('auth:sanctum');
 Route::post('/v1/teams', [TeamController::class, 'AddTeam'])->middleware('auth:sanctum');
 Route::get('/v1/teams/{id}', [TeamController::class, 'GetById'])->middleware('auth:sanctum');
 Route::post('/v1/teams/{id}', [TeamController::class, 'SetTeam'])->middleware('auth:sanctum');
-
-Route::get('/v1/search', [PokemonController::class, 'Search']);
-
-//Route::get('/v2/pokemons', [PokemonController::class, 'get']);
 
 Route::post('/user/add', [UserController::class, 'AddUser']);
 Route::post('/user/edit', [UserController::class, 'EditUser'])->middleware('auth:sanctum');
