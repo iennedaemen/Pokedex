@@ -74,7 +74,7 @@ class TeamController extends Controller
     {
 
         if (Team::where('id', $id) == null) {    
-            return response()->json(['description' => 'Can not create team with this info'], 400);
+            return response()->json(['description' => 'Team not found'], 400);
         }
 
         $position = 1;
