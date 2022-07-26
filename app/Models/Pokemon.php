@@ -57,4 +57,9 @@ class Pokemon extends Model
     {
         return $this->hasMany(Form::class);
     }
+
+    public function teams()
+    {
+        return $this->hasMany(Team::class);
+    }
 }

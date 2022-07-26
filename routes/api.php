@@ -28,7 +28,7 @@ Route::get('/v1/pokemons', [PokemonController::class, 'GetAll']);
 Route::get('/v1/pokemons/{id}', [PokemonController::class, 'GetById']);
 Route::get('/v2/pokemons', [PokemonController::class, 'GetAllPaginated']);
 
-//Route::get('/v1/teams', [TeamController::class, 'getAll']);
+Route::get('/v1/teams', [TeamController::class, 'getAll'])->middleware('auth:sanctum');
 Route::post('/v1/teams', [TeamController::class, 'AddTeam'])->middleware('auth:sanctum');
 //Route::get('/v1/teams/{id}', [TeamController::class, 'getById']);
 //Route::post('/v1/teams/{id}', [TeamController::class, 'set']);

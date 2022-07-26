@@ -6,6 +6,7 @@ use App\Models\Team;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+use App\Models\Pokemon;
 
 class TeamController extends Controller
 {
@@ -36,6 +37,24 @@ class TeamController extends Controller
             $position = $this->AddToTeam($request->pokemon6, $request->name, $position);
 
         return response()->json(['description' => 'Successful operation'], 201);
+    }
+
+    public function GetAll()
+    {
+        $teams = Team::where('user_id', Auth::id())->get();
+        $arr = [];
+        
+        foreach($teams as $team)
+        {
+            $arr[$team->name] = '';
+        }
+
+        foreach($teams as $team)
+        {
+            $arr[$team->name] .= $team->pokemon . ', ';
+        }
+
+        return response()->json(['description' => 'Successful operation', 'teams' => $arr], 200);
     }
 
     private function AddToTeam($pokemon, $name, $position)
