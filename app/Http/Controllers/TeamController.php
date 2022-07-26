@@ -3,10 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Models\Team;
+use App\Models\Pokemon;
+use App\Models\PokemonTeam;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-use App\Models\Pokemon;
 
 class TeamController extends Controller
 {
@@ -21,20 +22,26 @@ class TeamController extends Controller
             return response()->json(['description' => 'Can not create team with this info'], 400);
         }
 
+
+        $team = new Team();
+        $team->user_id = Auth::id();
+        $team->name = $request->name;
+        $team->save();
+
         $position = 1;
 
         if($request->pokemon1)
-            $position = $this->AddToTeam($request->pokemon1, $request->name, $position);
+            $position = $this->AddToTeam($request->pokemon1, $team->id, $position);
         if($request->pokemon2)
-            $position = $this->AddToTeam($request->pokemon2, $request->name, $position);
+            $position = $this->AddToTeam($request->pokemon2, $team->id, $position);
         if($request->pokemon3)
-            $position = $this->AddToTeam($request->pokemon3, $request->name, $position);
+            $position = $this->AddToTeam($request->pokemon3, $team->id, $position);
         if($request->pokemon4)
-            $position = $this->AddToTeam($request->pokemon4, $request->name, $position);
+            $position = $this->AddToTeam($request->pokemon4, $team->id, $position);
         if($request->pokemon5)
-            $position = $this->AddToTeam($request->pokemon5, $request->name, $position);
+            $position = $this->AddToTeam($request->pokemon5, $team->id, $position);
         if($request->pokemon6)
-            $position = $this->AddToTeam($request->pokemon6, $request->name, $position);
+            $position = $this->AddToTeam($request->pokemon6, $team->id, $position);
 
         return response()->json(['description' => 'Successful operation'], 201);
     }
@@ -57,14 +64,25 @@ class TeamController extends Controller
         return response()->json(['description' => 'Successful operation', 'teams' => $arr], 200);
     }
 
-    private function AddToTeam($pokemon, $name, $position)
+    public function GetById($id)
     {
-        $team = new Team();
-        $team->user_id = Auth::id();
-        $team->name = $name;
-        $team->pokemon_id = $pokemon;
-        $team->position = $position;
-        $team->save();
+        $t = Team::where('id', $id)->first();
+
+        if($t == null)
+            return response()->json(['description' => 'Team not found'], 404);    
+
+        $team = [$t->name, $t->pokemon];
+
+        return response()->json(['description' => 'Successful operation', 'team' => $team], 200);
+    }
+
+    private function AddToTeam($pokemon_id, $team_id, $position)
+    {
+        $pt = new PokemonTeam();
+        $pt->team_id = $team_id;
+        $pt->pokemon_id = $pokemon_id;
+        $pt->position = $position;
+        $pt->save();
 
         return ++$position;
     }

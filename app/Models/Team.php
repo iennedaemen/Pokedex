@@ -14,6 +14,6 @@ class Team extends Model
 
     public function pokemon()
     {
-        return $this->belongsTo(Pokemon::class);
+        return $this->belongsToMany(Pokemon::class, 'pokemon_team', 'team_id', 'pokemon_id')->withPivot('position');
     }
 }

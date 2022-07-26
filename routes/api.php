@@ -30,7 +30,7 @@ Route::get('/v2/pokemons', [PokemonController::class, 'GetAllPaginated']);
 
 Route::get('/v1/teams', [TeamController::class, 'getAll'])->middleware('auth:sanctum');
 Route::post('/v1/teams', [TeamController::class, 'AddTeam'])->middleware('auth:sanctum');
-//Route::get('/v1/teams/{id}', [TeamController::class, 'getById']);
+Route::get('/v1/teams/{id}', [TeamController::class, 'GetById']);
 //Route::post('/v1/teams/{id}', [TeamController::class, 'set']);
 
 //Route::get('/v1/search', [PokemonController::class, 'search']);
