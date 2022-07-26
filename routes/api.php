@@ -34,6 +34,7 @@ Route::get('/v1/teams', [TeamController::class, 'getAll'])->middleware('auth:san
 Route::post('/v1/teams', [TeamController::class, 'AddTeam'])->middleware('auth:sanctum');
 Route::get('/v1/teams/{id}', [TeamController::class, 'GetById'])->middleware('auth:sanctum');
 Route::post('/v1/teams/{id}', [TeamController::class, 'SetTeam'])->middleware('auth:sanctum');
+Route::get('/v1/teams/delete/{id}', [TeamController::class, 'DeleteTeam'])->middleware('auth:sanctum');
 
 Route::post('/user/add', [UserController::class, 'AddUser']);
 Route::post('/user/edit', [UserController::class, 'EditUser'])->middleware('auth:sanctum');

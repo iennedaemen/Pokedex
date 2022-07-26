@@ -90,6 +90,13 @@ class TeamController extends Controller
         return response()->json(['description' => 'Successful operation'], 201);
     }
 
+    public function DeleteTeam($id)
+    {
+        Team::where('id', $id)->delete();
+        PokemonTeam::where('team_id', $id)->delete();
+        return response()->json(['description' => 'Successful operation'], 200);
+    }
+
     private function AddToTeam($pokemon_id, $team_id, $position, $pt)
     {
         if($pokemon_id)
