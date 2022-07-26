@@ -73,7 +73,8 @@ class TeamController extends Controller
     public function SetTeam(Request $request, $id)
     {
 
-        if (Team::where('id', $id) == null) {    
+        if (Team::where('id', $id) == null) 
+        {    
             return response()->json(['description' => 'Team not found'], 400);
         }
 

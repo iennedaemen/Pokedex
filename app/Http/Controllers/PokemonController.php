@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Type;
 use App\Models\Pokemon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class PokemonController extends Controller
 {
@@ -137,6 +139,43 @@ class PokemonController extends Controller
         $data['previous'] = $routePrevious;
 
         return response()->json(['description' => 'Successful operation', 'allPokemon' => $allPokemon, 'data' => $data], 200);
+    }
+
+    
+    public function Search(Request $request)
+    {
+        $validator = Validator::make($request->all(), [
+            'query' => 'required',
+        ]);
+
+        if ($validator->fails()) {    
+            return response()->json(['description' => 'The query is empty'], 400);
+        }
+
+        $pokemon = null;
+        $types = null;
+
+        $limit = $request->limit;
+
+        if($limit)
+        {
+            $types = Type::where('name', 'LIKE', '%' . $request->query('query') . '%')->take($limit)->get();
+            $limit -= $types->count();
+
+            if($limit > 0)
+                $pokemon = Pokemon::where('name', 'LIKE', '%'.$request->query('query').'%')->take($limit)->get();
+        }
+        else
+        {
+            $types = Type::where('name', 'LIKE', '%'.$request->query('query').'%')->get();
+            $pokemon = Pokemon::where('name', 'LIKE', '%'.$request->query('query').'%')->get();
+        }
+
+        $result = [];
+        $result['types'] = $types;
+        $result['pokemon'] = $pokemon;
+
+        return response()->json(['description' => 'Successful operation', 'result' => $result], 200);
     }
 
 }

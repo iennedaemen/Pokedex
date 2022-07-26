@@ -33,7 +33,7 @@ Route::post('/v1/teams', [TeamController::class, 'AddTeam'])->middleware('auth:s
 Route::get('/v1/teams/{id}', [TeamController::class, 'GetById'])->middleware('auth:sanctum');
 Route::post('/v1/teams/{id}', [TeamController::class, 'SetTeam'])->middleware('auth:sanctum');
 
-//Route::get('/v1/search', [PokemonController::class, 'search']);
+Route::get('/v1/search', [PokemonController::class, 'Search']);
 
 //Route::get('/v2/pokemons', [PokemonController::class, 'get']);
 
