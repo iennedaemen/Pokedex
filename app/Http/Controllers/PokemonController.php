@@ -11,24 +11,14 @@ class PokemonController extends Controller
     {
         $allPokemon = null;
 
-        switch($request->sort)
+        if($request->sort)
         {
-            case 'name-asc':
-                $allPokemon = Pokemon::orderBy('name', 'asc')->get();
-                break;
-            case 'name-desc':
-                $allPokemon = Pokemon::orderBy('name', 'desc')->get();
-                break;
-            case 'id-asc':
-                $allPokemon = Pokemon::orderBy('id', 'asc')->get();
-                break;
-            case 'id-desc':
-                $allPokemon = Pokemon::orderBy('id', 'desc')->get();
-                break;
-            default:
-                $allPokemon = Pokemon::all();
-                break;
+            $splitCharIndex = strpos($request->sort, '-');
+            $sortKey = substr($request->sort, 0, $splitCharIndex);
+            $sortValue = substr($request->sort, $splitCharIndex + 1);
+            $allPokemon = Pokemon::orderBy($sortKey, $sortValue)->get();
         }
+        else $allPokemon = Pokemon::all();
 
         return response()->json(['description' => 'Successful operation', 'allPokemon' => $allPokemon], 200);
     }
@@ -61,5 +51,92 @@ class PokemonController extends Controller
         return response()->json(['description' => 'Successful operation', 'pokemon' => $pokemon], 200);
     }
 
+    public function GetAllPaginated(Request $request)
+    {
+        $allPokemon = null;
+ 
+        // sort, limit, offset
+        $sortKey = null;
+        $sortValue = null;
+
+        if($request->sort)
+        {
+            $splitCharIndex = strpos($request->sort, '-');
+            $sortKey = substr($request->sort, 0, $splitCharIndex);
+            $sortValue = substr($request->sort, $splitCharIndex + 1);
+        }
+
+        $count = Pokemon::count();
+
+        if($request->limit && $request->offset)
+        {
+            if($sortKey && $sortValue)
+                $allPokemon = Pokemon::orderBy($sortKey, $sortValue)->skip($request->offset)->take($request->limit)->get();
+            else
+                $allPokemon = Pokemon::skip($request->offset)->take($request->limit)->get();
+        }
+
+        else if($request->limit && !$request->offset)
+        {
+            if($sortKey && $sortValue)
+                $allPokemon = Pokemon::orderBy($sortKey, $sortValue)->take($request->limit)->get();
+            else
+                $allPokemon = Pokemon::take($request->limit)->get();
+        }
+
+        else if(!$request->limit && $request->offset)
+        {
+            if($sortKey && $sortValue)
+                $allPokemon = Pokemon::orderBy($sortKey, $sortValue)->skip($request->offset)->take($count - $request->offset)->get();
+            else
+                $allPokemon = Pokemon::skip($request->offset)->take($count - $request->offset)->get();
+        }
+
+        else
+        {
+            if($sortKey && $sortValue)
+                $allPokemon = Pokemon::orderBy($sortKey, $sortValue)->get();
+            else
+                $allPokemon = Pokemon::all();
+        }
+
+        $nrPages = 0;
+
+        if( $request->limit)
+        {
+            while($count > 0)
+            {
+                $nrPages++;
+                $count -= $request->limit;
+            }
+        }
+        else $nrPages = 1;
+
+        $currentPage = 1;
+
+        if($request->offset && $request->limit)
+        {
+            $currentPage = $request->offset / $request->limit;
+        }
+
+        $route = url()->current();
+
+        $routeNext = null;
+        if($request->limit && $request->offset + $request->limit < Pokemon::count())
+            $routeNext = $route . '?sort=' . $request->sort  . '&offset=' . $request->offset + $request->limit . '&limit=' . $request->limit;
+
+        $routePrevious = null;
+        if($request->limit && $request->offset - $request->limit >= 0)
+            $routePrevious = $route . '?sort=' . $request->sort  . '&offset=' . $request->offset - $request->limit . '&limit=' . $request->limit;
+
+        $data = [];
+        $data['pages'] = $nrPages;
+        $data['page'] = $currentPage;
+        $data['total'] = Pokemon::count();
+        $data['next'] = $routeNext;
+        $data['previous'] = $routePrevious;
+
+        return response()->json(['description' => 'Successful operation', 'allPokemon' => $allPokemon, 'data' => $data], 200);
+    }
 
 }
