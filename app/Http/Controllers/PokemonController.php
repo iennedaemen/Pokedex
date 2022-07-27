@@ -116,9 +116,9 @@ class PokemonController extends Controller
 
         $currentPage = 1;
 
-        if($request->offset && $request->limit)
+        if($request->offset && $request->limit && $request->offset >= $request->limit)
         {
-            $currentPage = $request->offset / $request->limit;
+            $currentPage = ceil($request->offset / $request->limit) + 1;
         }
 
         $route = url()->current();
