@@ -41,8 +41,15 @@ class ImportPokemon extends Command
 
         $data = Http::get('https://pokeapi.co/api/v2/pokemon/' . $input . '/')->json();
 
+        if(!$data)
+        {
+            $this->error('The pokemon doesn\'t exist!');
+            return 0;
+        }
+
         if(Pokemon::where('name', $data['name'])->first())
         {
+            $this->error('The pokemon already exists in the database!');
             return 0;
         }
 
@@ -220,6 +227,7 @@ class ImportPokemon extends Command
                 
             }
         
+        $this->info('The pokemon was successfully added!');
 
         return 0;
     }
