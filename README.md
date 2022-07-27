@@ -3,9 +3,12 @@ You can not import a pokemon that already exists in the database.
 
 IMPORTANT!
 You have to make a user and login (get a token) to make teams.
-You can only view and edit your own teams.
+You can only view, edit and delete your own teams.
+
+I used Laravel Sanctum for the authentication.
 
 
+I have tested this project in https://www.postman.com/
 
 
 
