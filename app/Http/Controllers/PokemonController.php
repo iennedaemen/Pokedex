@@ -41,15 +41,6 @@ class PokemonController extends Controller
         $pokemon['version_indices'] = $pokemon->versions;
         $pokemon['moves'] = $pokemon->moves;
 
-        // TEST RELATIONS
-       // dd(json_encode($pokemon->moves));
-        //dd($pokemon->moves[0]->pivot->learn_method);
-        //dd($pokemon->types[1]->pivot->slot);
-        //dd($pokemon->sprites);
-        //dd($pokemon->versions[0]->pivot->index);
-        //dd($pokemon->stat->base_speed);
-        //dd($pokemon->abilities);
-
         return response()->json(['description' => 'Successful operation', 'pokemon' => $pokemon], 200);
     }
 
